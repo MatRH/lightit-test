@@ -34,6 +34,7 @@ class PatientController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:App\Models\Patient,email',
             'phone' => 'required|regex:/^\+?(\d{2,5})?[-, ]?\d{4}[-, ]?\d{4}$/i|max:16',
+            'photo' => 'required|file|image',
         ];
         $validator = Validator::make($request->all(), $rules);
 
@@ -59,12 +60,10 @@ class PatientController extends Controller
                     $response['response'] = "Invalid file";
                     return $response;
                 }
-                if($file->extension() != "jpg") {
-                    $response['response'] = "Invalid file extension";
-                    return $response;
-                }
                 $hashed_name = $file->hashName();
-                Storage::put($hashed_name, $file, 'public');
+                # Since its a picture of the patient ID this will be stored in the local storage for safety
+                # and the name hashed to prevent malicious activity
+                Storage::disk('local')->put($hashed_name, $file);
                 $url = Storage::url($hashed_name);
                 $patient->photo = $url;
                 $patient->update();
@@ -73,6 +72,7 @@ class PatientController extends Controller
             $response['response'] = "Patient successfully registered";
             $response['success'] = true;
 
+            # Queue a welcome email
             $details = [
                 'email' => $patient->email,
                 'user' => $patient->name,
