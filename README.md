@@ -24,7 +24,8 @@
 8) The app should now be running on http://localhost/
 
 EMAILS:
-    2) You can dispatch the email queue by running ./vendor/bin/sail artisan queue:work
+    2) You can dispatch the email queue by running:
+        ./vendor/bin/sail artisan queue:work
     2) You can check the mock emails sent by accessing http://localhost:8025/
 
 

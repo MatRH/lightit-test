@@ -73,10 +73,10 @@ class PatientController extends Controller
             $response['response'] = "Patient successfully registered";
             $response['success'] = true;
 
-            $details = ['email' => $patient->email];
-            /*
-            SendEmail::dispatch($details);
-            */
+            $details = [
+                'email' => $patient->email,
+                'user' => $patient->name,
+            ];
             $emailJob = (new SendEmail($details))->delay(Carbon::now()->addSeconds(5));
             dispatch($emailJob);
         }

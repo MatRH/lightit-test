@@ -30,7 +30,7 @@ class SendEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        $email = new WelcomeMail();
+        $email = new WelcomeMail($this->details['user']);
         Mail::to($this->details['email'])->send($email);
     }
 }
