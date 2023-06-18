@@ -74,21 +74,11 @@ class PatientController extends Controller
             $response['success'] = true;
 
             $details = ['email' => $patient->email];
-            $emailJob = (new SendEmail($details))->delay(Carbon::now()->addMinutes(1));
+            /*
+            SendEmail::dispatch($details);
+            */
+            $emailJob = (new SendEmail($details))->delay(Carbon::now()->addSeconds(5));
             dispatch($emailJob);
-
-            /*
-            $patient_email = $patient->email;
-            $patient_name = $patient->name;
-            dispatch(function ($email, $name) use ($patient_email, $patient_name){
-                Mail::to($email)->send(new WelcomeMail($name));
-            })->afterResponse();
-            */
-            /*
-            Mail::mailer('smtp')
-                ->to($patient->email)
-                ->queue(new WelcomeMail("Jon"));
-            */
         }
         
         return $response;

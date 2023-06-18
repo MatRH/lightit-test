@@ -13,12 +13,18 @@
 
 5) ./vendor/bin/sail up -d
 
-6) ./vendor/bin/sail artisan migrate
+6) sudo apt install php-mysql
+
+7) ./vendor/bin/sail artisan migrate
 
     A) IF YOU GET A MYSQL ERROR RELATED TO THE SAIL USER IN THE DB RUN THE FOLLOWING COMMANDS:
         I) ./vendor/bin/sail down -v
         I) ./vendor/bin/sail artisan migrate
 
-7) The app should now be running on http://localhost/
+8) The app should now be running on http://localhost/
 
-8) You can check the mock emails sent by accessing http://localhost:8025/
+EMAILS:
+    2) You can dispatch the email queue by running ./vendor/bin/sail artisan queue:work
+    2) You can check the mock emails sent by accessing http://localhost:8025/
+
+
